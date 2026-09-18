@@ -13,7 +13,7 @@ services:
       - "${DB_PORT:-5432}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./Database/scripts:/docker-entrypoint-initdb.d
+      - ./Database:/docker-entrypoint-initdb.d
     networks:
       - biblioteca_network
     healthcheck:
@@ -25,7 +25,7 @@ services:
 
   app:
     build:
-      context: ./Backend
+      context: ./Backend/biblioteca-virtual-api
       dockerfile: Dockerfile
     container_name: biblioteca_app
     environment:
@@ -42,7 +42,7 @@ services:
       postgres:
         condition: service_healthy
     volumes:
-      - ./Backend:/app
+      - ./Backend/biblioteca-virtual-api:/app
       - /app/node_modules
     networks:
       - biblioteca_network
